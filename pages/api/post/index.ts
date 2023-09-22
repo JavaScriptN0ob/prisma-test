@@ -14,6 +14,7 @@ const handler = async (req, res) => {
   
   // If you find that session returns null, you should consider to try
   // using getServerSession instead of getSession.
+  // More to read: https://next-auth.js.org/getting-started/client#getsession
   const session = await getServerSession(req, res, authOptions);
   const result = await prisma.post.create({
     data: {
