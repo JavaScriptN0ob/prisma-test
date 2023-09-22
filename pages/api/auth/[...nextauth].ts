@@ -1,27 +1,31 @@
-// import { NextApiHandler } from 'next';
-// import NextAuth from 'next-auth';
-// import { PrismaAdapter } from '@next-auth/prisma-adapter';
-// import GitHubProvider from 'next-auth/providers/github';
-// import prisma from '../../../lib/prisma';
+/*
+// version 1
 
-// const options = {
-//   providers: [
-//     GitHubProvider({
-//       clientId: process.env.GITHUB_ID,
-//       clientSecret: process.env.GITHUB_SECRET,
-//     }),
-//   ],
-//   adapter: PrismaAdapter(prisma),
-//   secret: process.env.SECRET,
-// };
+import { NextApiHandler } from 'next';
+import NextAuth from 'next-auth';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import GitHubProvider from 'next-auth/providers/github';
+import prisma from '../../../lib/prisma';
 
-// const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, options);
-// export default authHandler;
+const options = {
+  providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+  ],
+  adapter: PrismaAdapter(prisma),
+  secret: process.env.SECRET,
+};
+
+const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, options);
+export default authHandler;
+
+*/
+
+/* ------------------------ separator ------------------------ */
 
 /*
-  Above code copied from https://vercel.com/guides/nextjs-prisma-postgres
-  which creates Prisma adapter is already out-dated (deprecated).
-
   The new adapter package called @auth/prisma-adapter
   Codes should no longer export authHandler, 
   instead a NextAuth without req & res should be export
@@ -38,6 +42,9 @@
   ```
 */
 
+// version 2
+
+import type { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 import NextAuth from "next-auth";
 import GitHubProvider from 'next-auth/providers/github';
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -45,7 +52,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export default NextAuth({
+const options = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHubProvider({
@@ -53,5 +60,10 @@ export default NextAuth({
       clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
-  secret: process.env.SECRET,
-});
+};
+
+
+
+const authHandler = (req: NextApiRequest, res: NextApiResponse): NextApiHandler => NextAuth(req, res, options);
+
+export { authHandler as default, options as authOptions };
