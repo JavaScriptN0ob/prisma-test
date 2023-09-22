@@ -52,7 +52,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const options = {
+export const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHubProvider({
@@ -64,6 +64,6 @@ const options = {
 
 
 
-const authHandler = (req: NextApiRequest, res: NextApiResponse): NextApiHandler => NextAuth(req, res, options);
+const authHandler = (req: NextApiRequest, res: NextApiResponse): NextApiHandler => NextAuth(req, res, authOptions);
 
-export { authHandler as default, options as authOptions };
+export default authHandler;
