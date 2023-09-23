@@ -1,4 +1,5 @@
 // import { getSession } from 'next-auth/react';
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
 import prisma from '../../../lib/prisma';
@@ -6,7 +7,7 @@ import prisma from '../../../lib/prisma';
 // POST /api/post
 // Required fields in body: title & content
 
-const handler = async (req, res) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { title, content } = req.body;
 
   // const session = await getSession({ req });
