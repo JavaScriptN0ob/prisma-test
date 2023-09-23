@@ -61,6 +61,7 @@ export const authOptions: AuthOptions = {
       clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
+  secret: process.env.SECRET,
 };
 
 
